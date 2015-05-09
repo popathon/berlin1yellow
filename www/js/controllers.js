@@ -1,13 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {
-  var calculateDistance = function(element){
-    var top = 100 - $(element).position().top;
-    return Math.abs(top);
-  };
-
-  var scrollAll = function(){
-    $('.story-content').scroll(function(){
+  $scope.updateUI = function(){
       var scrollers = $('.story-content');
       for(var i = 0; i < scrollers.length; i++){
         if (scrollers[i] == this) continue;
@@ -29,8 +23,25 @@ angular.module('starter.controllers', [])
       activeCell.parent().parent().find('td').removeClass('active');
       activeCell.addClass('active');
 
-      var allCards = $('[data-tag="' + data.tag + '"]')
-    });
+      $('.timeline td .pegs').empty();
+      var taggedCards = $('[data-tag="' + data.tag + '"]');
+      for (var i = 0; i < taggedCards.length; i++){
+        var card = taggedCards[i];
+        if (card == winner) continue;
+        $('.timeline td.' + data.year + ' .pegs').append($("<p>x</p>"));
+      }
+    }
+
+  $scope.slideHasChanged = function(){
+  };
+
+  var calculateDistance = function(element){
+    var top = 100 - $(element).position().top;
+    return Math.abs(top);
+  };
+
+  var scrollAll = function(){
+    $('.story-content').scroll($scope.updateUI);
   };
   setTimeout(scrollAll, 1000);
 });
