@@ -1,20 +1,16 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
+.controller('DashCtrl', function($scope) {
+  var scrollAll = function(){
+    $('.story-content').scroll(function(){
+      console.log(this + ' is being scrolled');
+      var scrollers = $('.story-content');
+      for(var i = 0; i < scrollers.length; i++){
+        if (scrollers[i] == this) continue;
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  }
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
+        scrollers[i].scrollTop = this.scrollTop;
+      }
+    });
   };
+  setTimeout(scrollAll, 1000);
 });
